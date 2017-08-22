@@ -2,6 +2,7 @@ import copy
 import random
 from collections import deque
 import math
+import matplotlib.pyplot as plt
 
 def rec(head, tail, all_list):
     if(len(tail) < 1):
@@ -54,7 +55,14 @@ for pairs in perm_pairs:
         sum += math.sqrt(math.pow((x1 - x2), 2) + math.pow((y1 - y2), 2))
     pairs.insert(0, sum)    
 perm_pairs.sort()
-
-for i in range(10):
-    print(perm_pairs[i], "\n")
-        
+pairs = perm_pairs[0][1:]
+print pairs
+for i in range(5):
+    pairs = perm_pairs[i][1:]
+    x = []
+    y = []
+    for pair in pairs:
+        x.append(pair[0])
+        y.append(pair[1])
+        plt.plot(x, y, marker="o", markerfacecolor="r")
+    plt.show()   
