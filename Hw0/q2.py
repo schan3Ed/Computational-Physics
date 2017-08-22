@@ -11,7 +11,7 @@ def rec(head, tail, round_count, all_list, var):
         p = list(head)
         p.append(x)
         tail.append(x)
-#        print(p, "    ", round_count, "   ", tail, "   ", i)
+#       print(p, "    ", round_count, "   ", tail, "   ", i)
         rec(copy.copy(p), copy.copy(tail), round_count - 1, all_list, var)
 
 
