@@ -35,29 +35,29 @@ for i in range(7):
 perm_pairs = []
 
 
-print("This is a set of paris    \n", pairs)
+#print("This is a set of paris    \n", pairs)
 
 rec([], pairs, perm_pairs)
 
 
-for i in range(7):
-    print(perm_pairs[i], '\n')
+
 
 for pairs in perm_pairs:
     sum = 0
-    for i in range(0, len(pairs) - 2, 2):
+    for i in range(0, len(pairs) - 1):
      #   print(pairs[i])
         x1 = pairs[i][0]
         y1 = pairs[i][1]
         x2 = pairs[i + 1][0]
         y2 = pairs[i + 1][1]
-        
+  #      print(pairs[i])
         sum += math.sqrt(math.pow((x1 - x2), 2) + math.pow((y1 - y2), 2))
+ #       print(sum)
     pairs.insert(0, sum)    
 perm_pairs.sort()
 pairs = perm_pairs[0][1:]
-print pairs
-for i in range(5):
+
+for i in range(0, 10, 2):
     pairs = perm_pairs[i][1:]
     x = []
     y = []
@@ -67,3 +67,4 @@ for i in range(5):
         plt.plot(x, y, marker="o", markerfacecolor="r")
     plt.show()   
 
+#print(perm_pairs[0:10])
