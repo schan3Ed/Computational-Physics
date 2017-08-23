@@ -15,7 +15,7 @@ def multiply(ma, mb):
             mc[i, j] = sum
     return mc
 
-
+#example
 ma = numpy.matrix('1 1; 1 1')
 mb = numpy.matrix('1 1; 1 1')
 print(multiply(ma, mb))
