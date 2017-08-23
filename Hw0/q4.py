@@ -1,19 +1,24 @@
 import numpy
 import math
+import matplotlib.pyplot as plt
 
 
 def fx(p):
-    return numpy.sin(p) / numpy.sqrt(p)
+    return math.sin(p) / math.sqrt(p)
 
 
 def trap(N, b, a):
-    h = (b - a) / N
+    h = float(b - a) / N
     sum = 0
-    for k in range(N - 1):
+    for k in range(1, N - 1):
         xk0 = a + k * h
         xk1 = a + (k + 1) * h
         sum += fx(xk0) + fx(xk1)
-    print math.pow(h, 3)
-    return h / 2 * sum
+    print "Error for this iteration:  ", math.pow(h, 3)
+   # print sum
+    return float(h) / 2 * sum
 
-trap(10, 3, 2)
+for i in range(1, 500):
+    plt.scatter(i * 0.1, trap(100, i * 0.1, 0 ))
+  #  print trap(10, i, 0 )
+plt.show()
