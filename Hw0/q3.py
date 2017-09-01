@@ -57,14 +57,15 @@ for pairs in perm_pairs:
 perm_pairs.sort()
 pairs = perm_pairs[0][1:]
 
-for i in range(1):
-    pairs = perm_pairs[5000][1:]
+for i in range(0, 10, 2):
+    pairs = perm_pairs[i][1:]
     x = []
     y = []
     for pair in pairs:
         x.append(pair[0])
         y.append(pair[1])
-        plt.plot(x, y, marker="o", markerfacecolor="r")
+        plt.plot(x, y, marker="o", markerfacecolor="r",)
+    plt.title("The distance of this route: " + str(perm_pairs[i][0]))
     plt.show()   
     
 

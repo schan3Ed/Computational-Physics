@@ -1,0 +1,301 @@
+\documentclass[a4paper]{article}
+    \linespread{2}
+    \def\contra{\tikz[baseline, x=0.22em, y=0.22em, line width=0.032em]\draw (0,2.83)--(2.83,0) (0.71,3.54)--(3.54,0.71) (0,0.71)--(2.83,3.54) (0.71,0)--(3.54,2.83);} 
+    \usepackage[english]{babel}
+    \usepackage[utf8x]{inputenc}
+    
+    \usepackage{graphicx}
+    \usepackage[colorinlistoftodos]{todonotes}
+    \usepackage{amsmath,amsthm, amsfonts,amssymb}
+    \title{Homework 0
+    PY525}
+    
+    \author{Edward Chan}
+    
+    \begin{document}
+    \maketitle
+    All code are presented in https://github.com/schan3Ed/py525
+    \section{Problem 1}
+    In problem 1, I created a function name multiple work as a following
+    \\ for given $i, j, k$ and $multiply(A, B)$ which i traverse A by rows, j traverse B by columns. They share variable k within the row/column. 
+    \\ Each output element in the output matrix calculated by the follow equation
+    \\ $\sum_{k}(-1)^{i + j + k} ma[i][k] mb[k][j] $
+    \\ The input of this program must be a $n$ by $n$ numpy matrix. The output is also an $n$ by $n$ numpy matrix
+    \\ Example output:
+    \begin{verbatim}
+    [[1 1]
+     [1 1]]
+    [[1 1]
+     [1 1]]
+    [[ 0.  0.]
+     [ 0.  0.]]
+    \end{verbatim}
+    \section{Problem 2}
+    First part of the problem asked to generate a set of combination with element $1, -1$. Using recursive method, the elements generated are
+    \begin{verbatim}
+    [[1, -1, 1, -1], [1, -1, 1, 1], [1, -1, -1, 1], 
+    [1, -1, -1, -1], [1, 1, -1, 1], [1, 1, -1, -1], 
+    [1, 1, 1, -1], [1, 1, 1, 1], [-1, 1, -1, 1], 
+    [-1, 1, -1, -1], [-1, 1, 1, -1], [-1, 1, 1, 1], 
+    [-1, -1, 1, -1], [-1, -1, 1, 1], [-1, -1, -1, 1], [-1, -1, -1, -1]]
+    \end{verbatim}
+    The recursive method builds 2 binary trees with height of 4. An output list append the last child of the tree
+    \\Second part of the problem uses the combination to calculate the expectation value of $E$ with the equation $<E> = \sum e^{E(p)}E(p)$ with $E(p) = p_1p_2 + p_2p_3 + p_3p_4 + p4_p1$
+    \\ The result is: $-436.638675154$
+    
+    \section{Problem 3}
+    This is a shortest path problem with 7 random vertices. Given the small amount of permutations there are. I first generated all possible permutation of all the points recursively. Then I calculated all the distance in each of the set. At last, using python's library to sort the list
+    \\Example output: \\
+    \includegraphics[width=\linewidth]{src/figure_1.png}
+    \includegraphics[width=\linewidth]{src/figure_1-2.png}
+    \includegraphics[width=\linewidth]{src/figure_1-3.png}
+    \includegraphics[width=\linewidth]{src/figure_1-4.png}
+    \\Trivally, if a path from ABCD....Z is the shortest, then ZYX...A will also be the shortest path. However, the output already omitted those repeated path output
+    \\And for the fun, here is a comparison of a long path vs a short path\\
+    \includegraphics[width=\linewidth]{src/figure_1-5.png}
+    \includegraphics[width=\linewidth]{src/figure_1-6.png}
+    
+    \section{Problem 4}
+    I generated a function to calculate the the integral with the trapezoid rule. I then proceed calculating integral with different interval. Due to the precision of trapezoid rule, I can only generate the function at a lower bound. The program will also print out the error value to the user 
+    \\Example output:
+    \\This is the function with the interval [1, 50] with a trapezoid rule evaluating [0, 0.1] using a 100 steps
+    \begin{verbatim}
+    Error for this iteration:   0.118370771
+    Error for this iteration:   0.119095488
+    Error for this iteration:   0.119823157
+    Error for this iteration:   0.120553784
+    Error for this iteration:   0.121287375
+    Error for this iteration:   0.122023936
+    Error for this iteration:   0.122763473
+    Error for this iteration:   0.123505992
+    Error for this iteration:   0.124251499 etc.
+    \end{verbatim}
+    \includegraphics[width=\linewidth]{src/figure_1-7.png}
+    \\Since the value is around 1.5 and the error is around 0.1, its about a 1\% error. So I proceed to generate a more accurate plot given a smaller interval 
+    \\My input are [1, 20] with a 200 steps trapezoid rule\\
+    \begin{verbatim}
+    Error for this iteration:   0.000912673
+    Error for this iteration:   0.000926859375
+    Error for this iteration:   0.000941192
+    Error for this iteration:   0.000955671625
+    Error for this iteration:   0.000970299
+    Error for this iteration:   0.000985074875
+    \end{verbatim}
+    \includegraphics[width=\linewidth]{src/figure_1-8.png}
+    \\And as you can see, error is at .001\% now which is a more acceptable
+    
+    \section{Problem 5}
+    I created 3 functions to tackle this problem. First functions creates a lattice that filled with zeroes. The Second function convert some to 1 base on given probability. The third function plot the lattice base on the value
+    \\Example output:
+    \\This is a 20 by 20 lattice with a probability of 30\%\\
+    \includegraphics[width=\linewidth]{src/figure_1-9.png}
+    \section{Appendix}
+    \begin{verbatim}
+    
+    Problem 1
+    import scipy as scipy
+    import numpy as numpy
+    
+    #ma, mb must be a n x n numpy matrix
+    def multiply(ma, mb):
+        n = ma.ndim
+        mc = numpy.zeros((n, n))
+        for i in range(0, n):
+            for j in range(0, n):
+                sum = 0
+                for k in range(0, n):
+                    mul = 1
+                    if (i + j + k) % 2 == 1:
+                        mul = -1
+                    sum += ma[i, k] * mb[k, j] * mul
+                mc[i, j] = sum
+        return mc
+    
+    #example
+    ma = numpy.matrix('1 1; 1 1')
+    mb = numpy.matrix('1 1; 1 1')
+    print ma
+    print mb
+    print(multiply(ma, mb))
+    
+    #solved
+    
+    Problem 2
+    
+    from collections import deque
+    import copy
+    import numpy
+    
+    def rec(head, tail, round_count, all_list, var):
+        if(round_count < 1):
+            all_list.append(head)
+            return
+        for i in range(var):
+            x = tail.popleft()
+            p = list(head)
+            p.append(x)
+            tail.append(x)
+    #       print(p, "    ", round_count, "   ", tail, "   ", i)
+            rec(copy.copy(p), copy.copy(tail), round_count - 1, all_list, var)
+    
+    
+    
+    tail = deque([1, -1])
+    head = deque([])
+    round_count = 4
+    var = 2
+    all_list = []
+    rec(head, tail, round_count, all_list, var)
+    print("\nAll possible permutation   ", all_list, "\n")
+    
+    #Ending the permutation code ehre
+    sum = 0
+    for n in all_list:
+        ep = n[0] * n[1] + n[1] * n[2] + n[2] * n[3] + n[3] * n[0]
+        sum += numpy.exp(ep * -1) * ep
+    
+    print(sum)
+    
+    
+    
+    Problem 3
+    
+    import copy
+    import random
+    from collections import deque
+    import math
+    import matplotlib.pyplot as plt
+    
+    def rec(head, tail, all_list):
+        if(len(tail) < 1):
+            all_list.append(head)
+            return
+        for i in range(len(tail)):
+            x = tail[i]
+            po = copy.copy(tail)
+            po.pop(i)
+            p = list(head)
+            p.append(x)
+          #  tail.append(x)
+    #       print(p, "    ", round_count, "   ", tail, "   ", i)
+            rec(copy.copy(p), po, all_list)
+    
+    x = random.random()
+    pairs = []
+    #print(x)
+    
+    for i in range(7):
+        x = random.random()
+        y = random.random()
+        x = round(x, 2)
+        y = round(y, 2)
+        pair = []
+        pair.append(x)
+        pair.append(y)
+        pairs.append(pair)
+    
+    perm_pairs = []
+    
+    
+    #print("This is a set of paris    \n", pairs)
+    
+    rec([], pairs, perm_pairs)
+    
+    
+    
+    
+    for pairs in perm_pairs:
+        sum = 0
+        for i in range(0, len(pairs) - 1):
+         #   print(pairs[i])
+            x1 = pairs[i][0]
+            y1 = pairs[i][1]
+            x2 = pairs[i + 1][0]
+            y2 = pairs[i + 1][1]
+      #      print(pairs[i])
+            sum += math.sqrt(math.pow((x1 - x2), 2) + math.pow((y1 - y2), 2))
+     #       print(sum)
+        pairs.insert(0, sum)    
+    perm_pairs.sort()
+    pairs = perm_pairs[0][1:]
+    
+    for i in range(0, 10, 2):
+        pairs = perm_pairs[i][1:]
+        x = []
+        y = []
+        for pair in pairs:
+            x.append(pair[0])
+            y.append(pair[1])
+            plt.plot(x, y, marker="o", markerfacecolor="r",)
+        plt.title("The distance of this route: " + str(perm_pairs[i][0]))
+        plt.show()   
+        
+    
+    #print(perm_pairs[0:10])
+    
+    Problem 4
+    
+    import numpy
+    import math
+    import matplotlib.pyplot as plt
+    
+    
+    def fx(p):
+        return math.sin(p) / math.sqrt(p)
+    
+    
+    def trap(N, b, a):
+        h = float(b - a) / N
+        sum = 0
+        for k in range(1, N - 1):
+            xk0 = a + k * h
+            xk1 = a + (k + 1) * h
+            sum += fx(xk0) + fx(xk1)
+        print "Error for this iteration:  ", math.pow(h, 3)
+       # print sum
+        return float(h) / 2 * sum
+    
+    for i in range(1, 200):
+        plt.scatter(i * 0.1, trap(200, i * 0.1, 0 ))
+      #  print trap(10, i, 0 )
+    plt.show()
+    
+    problem 5
+    
+    import matplotlib.pyplot as plt
+    import random
+    
+    
+    def prob(n, l):
+        for i in range(n):
+            for j in range(n):
+                x = random.random()
+                if(x < 0.3333333):
+                    l[i][j] = 1
+    
+    def lattice(n, l):
+        for i in range(n):
+            l.append([])
+            for j in range(n):
+                l[i].append(0)
+    
+    def plot(n, l):
+        for i in range(n):
+            for j in range(n):
+                if (l[i][j] == 1) :
+                    str = "red"
+                else:
+                    str = "none"
+                plt.scatter(i, j, marker="o", facecolors=str)
+        plt.show()
+    
+    l = []
+    lattice(20, l)
+    prob(20, l)
+    plot(20, l)
+    
+    
+    
+    
+    \end{verbatim}
+    \end{document}

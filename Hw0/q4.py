@@ -18,7 +18,7 @@ def trap(N, b, a):
    # print sum
     return float(h) / 2 * sum
 
-for i in range(1, 500):
-    plt.scatter(i * 0.1, trap(100, i * 0.1, 0 ))
+for i in range(1, 200):
+    plt.scatter(i * 0.1, trap(200, i * 0.1, 0 ))
   #  print trap(10, i, 0 )
 plt.show()

@@ -1,6 +1,7 @@
 import scipy as scipy
 import numpy as numpy
 
+#ma, mb must be a n x n numpy matrix
 def multiply(ma, mb):
     n = ma.ndim
     mc = numpy.zeros((n, n))
@@ -18,6 +19,8 @@ def multiply(ma, mb):
 #example
 ma = numpy.matrix('1 1; 1 1')
 mb = numpy.matrix('1 1; 1 1')
+print ma
+print mb
 print(multiply(ma, mb))
 
 #solved
