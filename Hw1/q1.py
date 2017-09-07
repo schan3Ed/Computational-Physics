@@ -18,4 +18,8 @@ mean = n.mean()
 var = numpy.var(n)
 print mean, "      ", var
 plt.hist(all_x, bins=48, range=[0, 12])
+plt.title("sum of 12 random generated numbers from [0, 1]")
+plt.xlabel("occurrence")
+plt.ylabel("sum")
+plt.text(1, 8000, "Mean: " + str(round(mean,2)) +  " Variance: " + str(round(var,2)))
 plt.show()

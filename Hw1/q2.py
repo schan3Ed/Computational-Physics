@@ -2,6 +2,7 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+from scipy import stats
 
 def step():
     x = random.random()
@@ -25,6 +26,7 @@ def rw(s):
     return (path_x, path_y)
 
 pts = []
+
 for i in range(1, 70):
     print "Doing walk #:  ", i
     p = []
@@ -35,11 +37,23 @@ for i in range(1, 70):
     pts.append(np.array(p).mean())
 
 plt.plot(pts)
+slope, intercept, r_value, p_value, std_err = stats.linregress(pts, range(0, 69))
+f = lambda x: slope * x + intercept
+x = np.array([0, 69])
+print "slope: ", slope, "intercept: ", intercept, "r-value: ", r_value
+plt.title("Average distance of 500 walks from 1 to 70 steps vs their steps")
+plt.xlabel("steps")
+plt.ylabel("<r^2>")
+plt.text(50, 20, "slope of " + str(round(slope, 2)))
+plt.plot(x, f(x)) 
 plt.show()
-#px, py = rw(10000)
+'''
+px, py = rw(10000)
     #print path_y
-#plt.plot(0, 0, marker='o')
-#plt.plot(px, py )
-#plt.plot(px[-1], py[-1], marker='o')
+plt.plot(0, 0, marker='o')
+plt.title("Random walk with 10000 steps")
+plt.plot(px, py )
+plt.plot(px[-1], py[-1], marker='o')
 #plt.axis([s * -1, s, s * -1, s])
-#plt.show()
+plt.show()
+'''
